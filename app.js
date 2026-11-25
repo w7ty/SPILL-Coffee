@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const preloader = document.getElementById("preloader");
   const preloaderVideo = document.getElementById("preloader-video");
   let preloaderClosed = false;
-  let preloaderStarted = false;
   let preloaderSafetyTimer = null;
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -58,9 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 650);
     }
 
+    function enableSoundOnUserGesture() {
+      if (!preloaderVideo || preloaderClosed) return;
+      preloaderVideo.muted = false;
+      preloaderVideo.volume = 1;
+      if (preloaderVideo.paused) {
+        preloaderVideo.play().catch(() => {});
+      }
+    }
+
     if (preloaderVideo) {
       preloaderVideo.loop = false;
-      preloaderVideo.muted = true;
       preloaderVideo.playsInline = true;
 
       preloaderVideo.addEventListener("ended", finishPreloader, { once: true });
@@ -69,11 +76,19 @@ document.addEventListener("DOMContentLoaded", () => {
         preloaderSafetyTimer = setTimeout(finishPreloader, 500);
       }, { once: true });
 
-      if (!preloaderStarted && preloaderVideo.paused) {
-        preloaderStarted = true;
+      // محاولة التشغيل بالصوت أولاً، وإذا منعها الجوال يبدأ صامتاً فوراً ثم يفتح الصوت عند اللمس
+      preloaderVideo.muted = false;
+      preloaderVideo.volume = 1;
+      preloaderVideo.play().catch(() => {
+        if (preloaderClosed) return;
+        preloaderVideo.muted = true;
         preloaderVideo.play().catch(() => {});
-      }
+      });
     }
+
+    ["pointerdown", "touchstart", "click", "keydown"].forEach((evt) => {
+      window.addEventListener(evt, enableSoundOnUserGesture, { once: true, passive: true });
+    });
 
     preloaderSafetyTimer = setTimeout(finishPreloader, 6500);
   }
