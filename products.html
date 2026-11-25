@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفاصيل المنتج — SPILL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-right">
+      <a id="back-to-store-link" href="index.html" class="checkout-link" style="text-decoration: none;">
+        <i class="fa-solid fa-arrow-right"></i>
+        <span>عودة</span>
+      </a>
+      <span class="brand-name">SPILL</span>
+    </div>
+
+    <div class="header-center">
+      <a href="index.html" class="center-logo-link" aria-label="SPILL">
+        <img src="image-coffee/logo-spill.png" alt="w7ty logo" class="center-logo-img" />
+      </a>
+    </div>
+
+    <div class="header-left">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="تبديل الوضع الليلي">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button id="cart-toggle" class="checkout-link" type="button">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>السلة (<span id="cart-count">0</span>)</span>
+      </button>
+    </div>
+  </header>
+
+  <div id="cart-overlay" class="cart-overlay" hidden></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h3>السلة</h3>
+      <button id="cart-close" class="icon-btn" type="button" aria-label="إغلاق السلة">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <div class="cart-summary">
+      <span>الإجمالي:</span>
+      <strong id="cart-total">0.00 ر.س</strong>
+    </div>
+    <a href="checkout.html" class="checkout-btn">إتمام الطلب</a>
+  </aside>
+
+  <main class="container">
+    <section id="product-detail-box" class="products-section" style="max-width: 780px; margin: 0 auto;">
+      <p style="color: var(--muted-text);">جاري تحميل تفاصيل المنتج...</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="copyright">جميع الحقوق محفوظة &copy; 2026 w7ty</p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

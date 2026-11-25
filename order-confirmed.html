@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تم تأكيد طلبك — SPILL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --oc-bg: #f3efe9;
+      --oc-surface: #faf8f5;
+      --oc-ink: #2b241f;
+      --oc-muted: #6f655d;
+      --oc-line: #dfd6ca;
+      --oc-accent: #8b5a2b;
+      --oc-ok: #2e7d32;
+      --oc-warn: #b26a00;
+      --oc-email-tint: #7a5229;
+    }
+
+    html[data-theme="dark"] {
+      --oc-bg: #181512;
+      --oc-surface: #211d19;
+      --oc-ink: #efe9e2;
+      --oc-muted: #a69c92;
+      --oc-line: #342d27;
+      --oc-accent: #c48b52;
+      --oc-ok: #66bb6a;
+      --oc-warn: #ffb74d;
+      --oc-email-tint: #cfa06b;
+    }
+
+    body.oc-page {
+      background-color: var(--oc-bg);
+      background-image: none;
+      color: var(--oc-ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    .oc-page .site-header,
+    .oc-page .site-footer {
+      background-color: var(--oc-surface);
+      border-color: var(--oc-line);
+    }
+
+    .oc-main {
+      max-width: 1020px;
+      width: 100%;
+      margin: 2.2rem auto 3.5rem;
+      padding: 0 1.25rem;
+      flex: 1;
+      box-sizing: border-box;
+    }
+
+    .oc-card {
+      background-color: var(--oc-surface);
+      border: 1px solid var(--oc-line);
+      border-radius: 24px;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 1.75rem;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .oc-hero-box {
+      background-color: var(--oc-bg);
+      border: 1px solid var(--oc-line);
+      border-radius: 20px;
+      padding: 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      max-height: 440px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .oc-hero-box img {
+      width: 100%;
+      height: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+    }
+
+    .oc-details {
+      padding: 0.4rem 0.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    .oc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--oc-ok);
+      background: rgba(46, 125, 50, 0.12);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      width: fit-content;
+    }
+
+    .oc-title {
+      margin: 0.65rem 0 0.35rem;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--oc-ink);
+    }
+
+    .oc-sub {
+      margin: 0;
+      color: var(--oc-muted);
+      font-size: 0.94rem;
+    }
+
+    .oc-meta {
+      background-color: var(--oc-bg);
+      border: 1px solid var(--oc-line);
+      border-radius: 16px;
+      padding: 1rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.92rem;
+    }
+
+    .oc-meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .oc-meta-label {
+      color: var(--oc-muted);
+      font-weight: 600;
+    }
+
+    .oc-meta-val {
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .oc-email-note {
+      font-size: 0.82rem;
+      padding: 0.68rem 0.88rem;
+      border-radius: 12px;
+      background-color: var(--oc-bg);
+      border: 1px solid var(--oc-line);
+      color: var(--oc-email-tint);
+      opacity: 0.74;
+      font-weight: 600;
+      line-height: 1.55;
+      transition: opacity 0.25s ease;
+    }
+
+    .oc-email-note:hover {
+      opacity: 0.9;
+    }
+
+    .oc-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .oc-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.35rem;
+      border-radius: 12px;
+      background-color: var(--oc-accent);
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .oc-btn-primary:hover {
+      opacity: 0.94;
+    }
+
+    @media (max-width: 820px) {
+      .oc-card {
+        grid-template-columns: 1fr;
+        border-radius: 20px;
+        padding: 1.1rem;
+        gap: 1.25rem;
+      }
+
+      .oc-hero-box {
+        min-height: 220px;
+        max-height: 290px;
+      }
+
+      .oc-hero-box img {
+        max-height: 270px;
+      }
+    }
+  </style>
+</head>
+<body class="oc-page">
+  <header class="site-header">
+    <div class="header-right">
+      <a href="index.html?from=checkout" class="checkout-link" style="text-decoration: none;">
+        <i class="fa-solid fa-arrow-right"></i>
+        <span>المتجر</span>
+      </a>
+    </div>
+    <div class="header-center">
+      <a href="index.html?from=checkout" class="center-logo-link" aria-label="SPILL">
+        <img src="image-coffee/logo-spill.png" alt="شعار SPILL" class="center-logo-img" />
+      </a>
+    </div>
+    <div class="header-left">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="تبديل الوضع الليلي">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="oc-main">
+    <section class="oc-card" aria-label="تأكيد الطلب">
+      <div class="oc-hero-box">
+        <img
+          id="confirmed-hero-img"
+          src="image-coffee/Image-Hero sec.jpeg"
+          alt="صورة تأكيد الطلب"
+          onerror="window.handleConfirmedHeroError(this)"
+        />
+      </div>
+
+      <div class="oc-details">
+        <div>
+          <div class="oc-badge">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>تم تأكيد الطلب</span>
+          </div>
+          <h1 class="oc-title">تم تأكيد طلبك بنجاح</h1>
+          <p class="oc-sub">شكراً لاختيارك SPILL، طلبك الآن قيد التجهيز.</p>
+        </div>
+
+        <div class="oc-meta">
+          <div class="oc-meta-row">
+            <span class="oc-meta-label">رقم الطلب</span>
+            <span id="oc-order-number" class="oc-meta-val">—</span>
+          </div>
+          <div class="oc-meta-row">
+            <span class="oc-meta-label">العميل</span>
+            <span id="oc-customer-name" class="oc-meta-val">—</span>
+          </div>
+          <div class="oc-meta-row">
+            <span class="oc-meta-label">الجوال</span>
+            <span id="oc-customer-phone" class="oc-meta-val">—</span>
+          </div>
+          <div class="oc-meta-row">
+            <span class="oc-meta-label">المدينة والحي</span>
+            <span id="oc-customer-city" class="oc-meta-val">—</span>
+          </div>
+          <div class="oc-meta-row">
+            <span class="oc-meta-label">الإجمالي</span>
+            <span id="oc-order-total" class="oc-meta-val">—</span>
+          </div>
+        </div>
+
+        <div id="oc-email-status" class="oc-email-note"></div>
+
+        <div class="oc-actions">
+          <a href="index.html?from=checkout" class="oc-btn-primary">
+            <i class="fa-solid fa-store"></i>
+            <span>العودة إلى المتجر</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="copyright">جميع الحقوق محفوظة &copy; w7ty</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.style.opacity = "0";
+      document.body.style.transform = "translateY(8px)";
+      document.body.style.transition =
+        "opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)";
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.body.style.opacity = "1";
+          document.body.style.transform = "translateY(0)";
+        });
+      });
+
+      document.querySelectorAll('a[href^="index.html"]').forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          sessionStorage.setItem("skip_intro_once", "1");
+          document.body.style.transition =
+            "opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.36s cubic-bezier(0.22, 1, 0.36, 1)";
+          document.body.style.opacity = "0";
+          document.body.style.transform = "translateY(8px)";
+          setTimeout(() => {
+            window.location.href = "index.html?from=checkout";
+          }, 280);
+        });
+      });
+
+      const themeToggle = document.getElementById("theme-toggle");
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      if (themeToggle) {
+        themeToggle.innerHTML = savedTheme === "dark"
+          ? '<i class="fa-solid fa-sun"></i>'
+          : '<i class="fa-solid fa-moon"></i>';
+
+        themeToggle.addEventListener("click", () => {
+          const current = document.documentElement.getAttribute("data-theme");
+          const next = current === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          localStorage.setItem("theme", next);
+          themeToggle.innerHTML = next === "dark"
+            ? '<i class="fa-solid fa-sun"></i>'
+            : '<i class="fa-solid fa-moon"></i>';
+        });
+      }
+
+      window.handleConfirmedHeroError = (imgEl) => {
+        if (!imgEl) return;
+        const step = Number(imgEl.dataset.step || "0");
+        const candidates = [
+          "image-coffee/Image-Hero sec.jpg",
+          "image-coffee/Image-Hero sec.png",
+          "image-coffee/image-hero-sec.jpeg",
+          "image-coffee/image-hero-sec.jpg",
+          "Image-Hero sec.jpeg",
+          "Image-Hero sec.jpg",
+          "image-coffee/image-story.1.jpeg",
+          "image-coffee/image-logo.jpeg"
+        ];
+        if (step < candidates.length) {
+          imgEl.dataset.step = String(step + 1);
+          imgEl.src = candidates[step];
+        }
+      };
+
+      let orderData = null;
+      try {
+        orderData = JSON.parse(sessionStorage.getItem("spill_last_order") || "null");
+      } catch {
+        orderData = null;
+      }
+
+      if (!orderData) {
+        orderData = {
+          orderNumber: "—",
+          name: "عميلنا العزيز",
+          phone: "—",
+          city: "—",
+          totalFormatted: "0.00 ر.س",
+          email: "",
+          emailNotice: ""
+        };
+      }
+
+      document.getElementById("oc-order-number").textContent = orderData.orderNumber || "—";
+      document.getElementById("oc-customer-name").textContent = orderData.name || "—";
+      document.getElementById("oc-customer-phone").textContent = orderData.phone || "—";
+      document.getElementById("oc-customer-city").textContent = orderData.city || "—";
+      document.getElementById("oc-order-total").textContent = orderData.totalFormatted || "0.00 ر.س";
+
+      const emailStatusEl = document.getElementById("oc-email-status");
+      if (orderData.emailNotice) {
+        emailStatusEl.textContent = orderData.emailNotice;
+      } else if (orderData.email) {
+        emailStatusEl.textContent = `ستصلك رسالة على إيميلك (${orderData.email}) بتفاصيل الطلب.`;
+      } else {
+        emailStatusEl.textContent = "ستصلك رسالة على إيميلك بتفاصيل الطلب.";
+      }
+    });
+  </script>
+</body>
+</html>

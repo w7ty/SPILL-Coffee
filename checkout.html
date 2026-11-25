@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إتمام الطلب — SPILL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --co-bg: #f3efe9;
+      --co-surface: #faf8f5;
+      --co-ink: #2b241f;
+      --co-muted: #6f655d;
+      --co-line: #dfd6ca;
+      --co-accent: #8b5a2b;
+      --co-danger: #c62828;
+      --co-danger-bg: rgba(198, 40, 40, 0.08);
+    }
+
+    html[data-theme="dark"] {
+      --co-bg: #181512;
+      --co-surface: #211d19;
+      --co-ink: #efe9e2;
+      --co-muted: #a69c92;
+      --co-line: #342d27;
+      --co-accent: #c48b52;
+      --co-danger: #ef5350;
+      --co-danger-bg: rgba(239, 83, 80, 0.12);
+    }
+
+    body.co-page {
+      background-color: var(--co-bg);
+      background-image: none;
+      color: var(--co-ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    .co-page .site-header,
+    .co-page .site-footer {
+      background-color: var(--co-surface);
+      border-color: var(--co-line);
+    }
+
+    .co-main {
+      max-width: 1120px;
+      width: 100%;
+      margin: 2rem auto 3.5rem;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      flex: 1;
+    }
+
+    .co-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 1.75rem;
+      align-items: stretch;
+    }
+
+    .co-card {
+      background-color: var(--co-surface);
+      border: 1px solid var(--co-line);
+      border-radius: 20px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    .co-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--co-ink);
+      margin: 0 0 1.15rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--co-line);
+    }
+
+    .co-two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.95rem;
+    }
+
+    .co-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+      margin-bottom: 0.95rem;
+    }
+
+    .co-field label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--co-ink);
+    }
+
+    .co-field input,
+    .co-field select,
+    .co-field textarea {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      border-radius: 12px;
+      border: 1px solid var(--co-line);
+      background-color: var(--co-bg);
+      color: var(--co-ink);
+      font-family: inherit;
+      font-size: 0.92rem;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .co-field input:focus,
+    .co-field select:focus,
+    .co-field textarea:focus {
+      outline: none;
+      border-color: var(--co-accent);
+    }
+
+    .co-field-error-input {
+      border-color: var(--co-danger) !important;
+      background-color: var(--co-danger-bg) !important;
+    }
+
+    .co-field-error-msg {
+      color: var(--co-danger);
+      font-size: 0.78rem;
+      font-weight: 700;
+      min-height: 1rem;
+      line-height: 1.35;
+    }
+
+    .co-photo-frame {
+      background-color: var(--co-surface);
+      border: 1px solid var(--co-line);
+      border-radius: 22px;
+      padding: 0.6rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      max-height: 440px;
+      box-sizing: border-box;
+    }
+
+    .co-photo-frame img {
+      width: 100%;
+      height: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+    }
+
+    .co-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .co-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.8rem 0.95rem;
+      border-radius: 14px;
+      background-color: var(--co-bg);
+      border: 1px solid var(--co-line);
+      font-size: 0.9rem;
+    }
+
+    .co-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--co-line);
+      font-size: 1.08rem;
+      font-weight: 800;
+    }
+
+    .co-submit-btn {
+      width: 100%;
+      padding: 0.82rem 1.2rem;
+      border: none;
+      border-radius: 12px;
+      background-color: var(--co-accent);
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.96rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .co-submit-btn:hover {
+      opacity: 0.94;
+    }
+
+    .co-submit-btn:active {
+      transform: scale(0.99);
+    }
+
+    .co-receipt {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background-color: var(--co-bg);
+      border: 1px solid var(--co-line);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .co-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 9999;
+    }
+
+    .co-modal-backdrop.is-open {
+      display: flex;
+    }
+
+    .co-modal-card {
+      width: 100%;
+      max-width: 450px;
+      background-color: var(--co-surface);
+      color: var(--co-ink);
+      border: 1px solid var(--co-line);
+      border-radius: 22px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+      box-sizing: border-box;
+    }
+
+    .co-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--co-line);
+    }
+
+    .co-modal-title {
+      margin: 0;
+      font-size: 1.06rem;
+      font-weight: 800;
+    }
+
+    .co-modal-close {
+      background: transparent;
+      border: 1px solid var(--co-line);
+      color: var(--co-ink);
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .co-apple-box {
+      background: #141210;
+      color: #fff;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .co-apple-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .co-apple-badge {
+      background: rgba(196, 139, 82, 0.22);
+      color: #f3c68f;
+      border: 1px solid rgba(243, 198, 143, 0.4);
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .co-modal-actions {
+      display: flex;
+      gap: 0.65rem;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    .co-btn-secondary {
+      padding: 0.68rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--co-line);
+      background-color: var(--co-bg);
+      color: var(--co-ink);
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .co-btn-confirm {
+      padding: 0.68rem 1.2rem;
+      border-radius: 10px;
+      border: none;
+      background-color: var(--co-accent);
+      color: #fff;
+      font-family: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .co-grid,
+      .co-two-cols {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .co-photo-frame {
+        min-height: 230px;
+        max-height: 300px;
+      }
+
+      .co-photo-frame img {
+        max-height: 280px;
+      }
+    }
+  </style>
+</head>
+<body class="co-page">
+  <div id="section-loader" class="section-loader" aria-hidden="true">
+    <div class="section-loader-card">
+      <img src="image-coffee/image-loading.jpeg" alt="جاري تأكيد الطلب" class="section-loader-img" />
+      <span id="section-loader-text" class="section-loader-text">جاري تأكيد الطلب...</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-right">
+      <a id="back-to-store-link" href="index.html?from=checkout" class="checkout-link" style="text-decoration: none;">
+        <i class="fa-solid fa-arrow-right"></i>
+        <span>المتجر</span>
+      </a>
+    </div>
+    <div class="header-center">
+      <a href="index.html?from=checkout" class="center-logo-link" aria-label="SPILL">
+        <img src="image-coffee/logo-spill.png" alt="شعار SPILL" class="center-logo-img" />
+      </a>
+    </div>
+    <div class="header-left">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="تبديل الوضع الليلي">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="co-main">
+    <section class="co-grid" aria-label="ملخص الطلب">
+      <aside class="co-card">
+        <div>
+          <h1 class="co-title">ملخص السلة</h1>
+          <div id="checkout-items-list" class="co-items"></div>
+        </div>
+
+        <div class="co-total">
+          <span>الإجمالي النهائي</span>
+          <span id="checkout-total-price">0.00 ر.س</span>
+        </div>
+      </aside>
+
+      <div class="co-photo-frame">
+        <img
+          src="image-coffee/image-story.2.jpeg"
+          alt="ملخص الطلب"
+          onerror="window.handleStoryImgError(this, 'image-story.2')"
+        />
+      </div>
+    </section>
+
+    <section class="co-grid" aria-label="بيانات الدفع والتوصيل">
+      <div class="co-photo-frame">
+        <img
+          src="image-coffee/image-story.1.jpeg"
+          alt="بيانات الدفع والتوصيل"
+          onerror="window.handleStoryImgError(this, 'image-story.1')"
+        />
+      </div>
+
+      <div class="co-card">
+        <div>
+          <h2 class="co-title">إتمام الطلب والدفع</h2>
+          <form id="checkout-order-form" novalidate>
+            <div class="co-two-cols">
+              <div class="co-field">
+                <label for="customer-name">الاسم الكامل</label>
+                <input id="customer-name" name="customerName" type="text" required placeholder="اكتب اسمك" />
+                <span id="err-customer-name" class="co-field-error-msg"></span>
+              </div>
+              <div class="co-field">
+                <label for="customer-phone">رقم الجوال (أرقام فقط)</label>
+                <input id="customer-phone" name="customerPhone" type="tel" inputmode="numeric" pattern="[0-9]*" required placeholder="05XXXXXXXX" />
+                <span id="err-customer-phone" class="co-field-error-msg"></span>
+              </div>
+            </div>
+
+            <div class="co-two-cols">
+              <div class="co-field">
+                <label for="customer-email">البريد الإلكتروني</label>
+                <input id="customer-email" name="customerEmail" type="email" required placeholder="name@example.com" />
+                <span id="err-customer-email" class="co-field-error-msg"></span>
+              </div>
+              <div class="co-field">
+                <label for="customer-city">المدينة والحي</label>
+                <input id="customer-city" name="customerCity" type="text" required placeholder="الرياض — حي الملقا" />
+                <span id="err-customer-city" class="co-field-error-msg"></span>
+              </div>
+            </div>
+
+            <div class="co-field">
+              <label for="payment-method">طريقة الدفع</label>
+              <select id="payment-method" name="paymentMethod">
+                <option value="mada">مدى / بطاقة بنكية</option>
+                <option value="apple-pay">Apple Pay — شغالين عليها</option>
+                <option value="cod">الدفع عند الاستلام</option>
+              </select>
+            </div>
+
+            <div class="co-field">
+              <label for="order-notes">ملاحظات التوصيل</label>
+              <textarea id="order-notes" name="orderNotes" rows="2" placeholder="أي ملاحظات إضافية..."></textarea>
+            </div>
+
+            <button type="submit" class="co-submit-btn">تأكيد وإتمام الطلب</button>
+          </form>
+        </div>
+
+        <div id="order-result-box" class="co-receipt" hidden></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="card-payment-modal" class="co-modal-backdrop" aria-hidden="true">
+    <div class="co-modal-card" role="dialog" aria-modal="true" aria-labelledby="card-modal-title">
+      <div class="co-modal-header">
+        <h3 id="card-modal-title" class="co-modal-title">
+          <i class="fa-regular fa-credit-card"></i>
+          <span>إدخال بيانات البطاقة</span>
+        </h3>
+        <button type="button" id="close-card-modal" class="co-modal-close" aria-label="إغلاق">&times;</button>
+      </div>
+
+      <form id="card-details-form" novalidate>
+        <div class="co-field">
+          <label for="card-holder-name">اسم حامل البطاقة (أحرف فقط)</label>
+          <input id="card-holder-name" type="text" required placeholder="مثال: saif bin hussain" autocomplete="cc-name" />
+          <span id="err-card-holder" class="co-field-error-msg"></span>
+        </div>
+
+        <div class="co-field">
+          <label for="card-number-input">رقم البطاقة (16 رقم)</label>
+          <input id="card-number-input" type="text" inputmode="numeric" pattern="[0-9 ]*" required placeholder="0000 0000 0000 0000" autocomplete="cc-number" />
+          <span id="err-card-number" class="co-field-error-msg"></span>
+        </div>
+
+        <div class="co-two-cols">
+          <div class="co-field">
+            <label for="card-expiry-input">تاريخ الانتهاء (أرقام فقط)</label>
+            <input id="card-expiry-input" type="text" inputmode="numeric" pattern="[0-9/]*" required placeholder="MM/YY" maxlength="5" autocomplete="cc-exp" />
+            <span id="err-card-expiry" class="co-field-error-msg"></span>
+          </div>
+          <div class="co-field">
+            <label for="card-cvv-input">رمز الأمان CVV (أرقام فقط)</label>
+            <input id="card-cvv-input" type="text" inputmode="numeric" pattern="[0-9]*" required placeholder="123" maxlength="3" autocomplete="cc-csc" />
+            <span id="err-card-cvv" class="co-field-error-msg"></span>
+          </div>
+        </div>
+
+        <div class="co-modal-actions">
+          <button type="button" id="cancel-card-modal" class="co-btn-secondary">إلغاء</button>
+          <button type="submit" class="co-btn-confirm">متابعة وإتمام الطلب</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="apple-pay-modal" class="co-modal-backdrop" aria-hidden="true">
+    <div class="co-modal-card" role="dialog" aria-modal="true" aria-labelledby="apple-modal-title">
+      <div class="co-modal-header">
+        <h3 id="apple-modal-title" class="co-modal-title">
+          <i class="fa-brands fa-apple"></i>
+          <span>Apple Pay</span>
+        </h3>
+        <button type="button" id="close-apple-modal" class="co-modal-close" aria-label="إغلاق">&times;</button>
+      </div>
+
+      <div class="co-apple-box">
+        <div class="co-apple-top">
+          <span style="font-weight: 800; font-size: 1.05rem;">
+            <i class="fa-brands fa-apple"></i> Pay — SPILL
+          </span>
+          <span class="co-apple-badge">شغالين عليها</span>
+        </div>
+        <p style="margin: 0; font-size: 0.9rem; line-height: 1.7; color: #e8e2da;">
+          ميزة الدفع عبر <strong>Apple Pay</strong> قيد التطوير حالياً وحالياً نحن <strong>شغالين عليها</strong> لتجربة أسرع وأفخم. اختر «مدى / بطاقة بنكية» أو «الدفع عند الاستلام» لإتمام طلبك الآن.
+        </p>
+      </div>
+
+      <div class="co-modal-actions">
+        <button type="button" id="switch-to-mada-btn" class="co-btn-confirm">اختيار البطاقة البنكية</button>
+        <button type="button" id="close-apple-btn" class="co-btn-secondary">حسناً</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p class="copyright">جميع الحقوق محفوظة &copy; w7ty</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const EMAILJS_PUBLIC_KEY = "Jwi8RMvmHHMjSPb6u";
+      const EMAILJS_SERVICE_ID = "service_zba0kg9";
+      const EMAILJS_TEMPLATE_ID = "template_tm5x1zp";
+      const THUMBNAIL_URL = "https://i.ibb.co/cWW5Jc0/image-logo.jpg";
+
+      const COFFEE_QUOTES = [
+        "القهوة قصيدةٌ كُتبت بالرائحة، تُقرأ بالرشفات، وتُفهم بالسكينة.",
+        "المطر في الخارج، والموسيقى في الخلفية، وكوب القهوة في اليد؛ معادلة الاتزان الكوني.",
+        "لا يُقاس جمال الكوب بسرعة تحضيره، بل بعمق اللحظة التي تقضيها معه.",
+        "عندما تعجز الكلمات عن ترتيب ما في صدرك، اترك المهمة لكوب قهوةٍ هادئ.",
+        "بين مرارة البنّ ودفء الكوب، تختبئ حقيقة أن الجمال يُولد دائماً من التناقض.",
+        "القهوة تمنح الليل عمقاً إضافياً، وتمنح الصباح سبباً وجيهاً للقدوم."
+      ];
+
+      const CARD_MAX_DIGITS = 16;
+      const CVV_MAX_DIGITS = 3;
+
+      document.body.style.opacity = "0";
+      document.body.style.transform = "translateY(8px)";
+      document.body.style.transition =
+        "opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)";
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.body.style.opacity = "1";
+          document.body.style.transform = "translateY(0)";
+          setTimeout(() => {
+            document.body.style.transform = "";
+          }, 420);
+        });
+      });
+
+      function navigateSmoothly(url) {
+        document.body.style.transition =
+          "opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.36s cubic-bezier(0.22, 1, 0.36, 1)";
+        document.body.style.opacity = "0";
+        document.body.style.transform = "translateY(8px)";
+        setTimeout(() => {
+          window.location.href = url;
+        }, 280);
+      }
+
+      if (window.emailjs) {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+      }
+
+      document.querySelectorAll('a[href^="index.html"]').forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          sessionStorage.setItem("skip_intro_once", "1");
+          navigateSmoothly("index.html?from=checkout");
+        });
+      });
+
+      const themeToggle = document.getElementById("theme-toggle");
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      if (themeToggle) {
+        themeToggle.innerHTML = savedTheme === "dark"
+          ? '<i class="fa-solid fa-sun"></i>'
+          : '<i class="fa-solid fa-moon"></i>';
+
+        themeToggle.addEventListener("click", () => {
+          const current = document.documentElement.getAttribute("data-theme");
+          const next = current === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          localStorage.setItem("theme", next);
+          themeToggle.innerHTML = next === "dark"
+            ? '<i class="fa-solid fa-sun"></i>'
+            : '<i class="fa-solid fa-moon"></i>';
+        });
+      }
+
+      window.handleStoryImgError = (imgEl, baseName) => {
+        if (!imgEl || !baseName) return;
+        const step = Number(imgEl.dataset.step || "0");
+        const variants = [
+          `image-coffee/${baseName}.jpeg`,
+          `image-coffee/${baseName}.jpg`,
+          `image-coffee/${baseName}.png`,
+          `${baseName}.jpeg`,
+          `${baseName}.jpg`,
+          "image-coffee/image-logo.jpeg"
+        ];
+        if (step < variants.length) {
+          imgEl.dataset.step = String(step + 1);
+          imgEl.src = variants[step];
+        }
+      };
+
+      const sectionLoader = document.getElementById("section-loader");
+      const sectionLoaderText = document.getElementById("section-loader-text");
+      function triggerPaymentLoader(text = "جاري تأكيد الطلب...", ms = 1400) {
+        if (!sectionLoader) return;
+        if (sectionLoaderText) sectionLoaderText.textContent = text;
+        sectionLoader.classList.add("is-active");
+        setTimeout(() => {
+          sectionLoader.classList.remove("is-active");
+        }, ms);
+      }
+
+      function setFieldError(inputEl, errEl, message) {
+        if (inputEl) {
+          inputEl.classList.toggle("co-field-error-input", Boolean(message));
+        }
+        if (errEl) {
+          errEl.textContent = message || "";
+        }
+      }
+
+      let cart = [];
+      try {
+        cart = JSON.parse(localStorage.getItem("spill_cart") || "[]");
+        if (!Array.isArray(cart)) cart = [];
+      } catch {
+        cart = [];
+      }
+
+      const listEl = document.getElementById("checkout-items-list");
+      const totalEl = document.getElementById("checkout-total-price");
+      const resultBox = document.getElementById("order-result-box");
+      const formEl = document.getElementById("checkout-order-form");
+      const paymentSelect = document.getElementById("payment-method");
+
+      const nameInput = document.getElementById("customer-name");
+      const nameErr = document.getElementById("err-customer-name");
+      const phoneInput = document.getElementById("customer-phone");
+      const phoneErr = document.getElementById("err-customer-phone");
+      const emailInput = document.getElementById("customer-email");
+      const emailErr = document.getElementById("err-customer-email");
+      const cityInput = document.getElementById("customer-city");
+      const cityErr = document.getElementById("err-customer-city");
+
+      const cardModal = document.getElementById("card-payment-modal");
+      const cardForm = document.getElementById("card-details-form");
+      const cardHolderInput = document.getElementById("card-holder-name");
+      const cardNumberInput = document.getElementById("card-number-input");
+      const cardExpiryInput = document.getElementById("card-expiry-input");
+      const cardCvvInput = document.getElementById("card-cvv-input");
+
+      if (cardNumberInput) {
+        cardNumberInput.maxLength = CARD_MAX_DIGITS + Math.floor((CARD_MAX_DIGITS - 1) / 4);
+      }
+      if (cardCvvInput) {
+        cardCvvInput.maxLength = CVV_MAX_DIGITS;
+      }
+
+      const cardHolderErr = document.getElementById("err-card-holder");
+      const cardNumberErr = document.getElementById("err-card-number");
+      const cardExpiryErr = document.getElementById("err-card-expiry");
+      const cardCvvErr = document.getElementById("err-card-cvv");
+
+      const appleModal = document.getElementById("apple-pay-modal");
+
+      let pendingOrderPayload = null;
+
+      function getRandomCoffeeQuote() {
+        const lastIndex = Number(sessionStorage.getItem("spill_last_quote_idx") ?? -1);
+        let nextIndex = Math.floor(Math.random() * COFFEE_QUOTES.length);
+
+        if (COFFEE_QUOTES.length > 1 && nextIndex === lastIndex) {
+          nextIndex = (nextIndex + 1) % COFFEE_QUOTES.length;
+        }
+
+        sessionStorage.setItem("spill_last_quote_idx", String(nextIndex));
+        return COFFEE_QUOTES[nextIndex];
+      }
+
+      function renderCheckoutSummary() {
+        localStorage.setItem("spill_cart", JSON.stringify(cart));
+        const total = cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 1), 0);
+        if (totalEl) totalEl.textContent = `${total.toFixed(2)} ر.س`;
+
+        if (!listEl) return;
+        if (cart.length === 0) {
+          listEl.innerHTML = "<p style='color: var(--co-muted); margin: 0;'>السلة فارغة حالياً.</p>";
+          return;
+        }
+
+        listEl.innerHTML = cart
+          .map(
+            (item) => `
+              <div class="co-item">
+                <div>
+                  <div style="font-weight: 700;">${item.name}</div>
+                  <div style="font-size: 0.8rem; color: var(--co-muted);">الكمية: ${item.qty} × ${Number(item.price).toFixed(2)} ر.س</div>
+                </div>
+                <div style="font-weight: 800;">${(Number(item.price) * Number(item.qty)).toFixed(2)} ر.س</div>
+              </div>
+            `
+          )
+          .join("");
+      }
+
+      renderCheckoutSummary();
+
+      phoneInput?.addEventListener("input", () => {
+        const hadNonDigits = /[^\d]/.test(phoneInput.value);
+        phoneInput.value = phoneInput.value.replace(/\D/g, "").slice(0, 15);
+        setFieldError(phoneInput, phoneErr, hadNonDigits ? "لا يمكنك إدخال أحرف هنا، أدخل أرقاماً فقط." : "");
+      });
+
+      cardHolderInput?.addEventListener("input", () => {
+        const hadDigitsOrSymbols = /[^A-Za-z\u0600-\u06FF\s]/.test(cardHolderInput.value);
+        cardHolderInput.value = cardHolderInput.value.replace(/[^A-Za-z\u0600-\u06FF\s]/g, "");
+        setFieldError(cardHolderInput, cardHolderErr, hadDigitsOrSymbols ? "لا يمكنك إدخال أرقام هنا، أدخل أحرفاً فقط." : "");
+      });
+
+      cardNumberInput?.addEventListener("keydown", (e) => {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        if (/^\d$/.test(e.key)) {
+          const currentDigits = cardNumberInput.value.replace(/\D/g, "");
+          const hasSelection =
+            cardNumberInput.selectionStart !== null &&
+            cardNumberInput.selectionEnd !== null &&
+            cardNumberInput.selectionEnd > cardNumberInput.selectionStart;
+
+          if (!hasSelection && currentDigits.length >= CARD_MAX_DIGITS) {
+            e.preventDefault();
+          }
+        }
+      });
+
+      cardNumberInput?.addEventListener("input", () => {
+        const hadLetters = /[^\d\s]/.test(cardNumberInput.value);
+        const digits = cardNumberInput.value.replace(/\D/g, "").slice(0, CARD_MAX_DIGITS);
+        cardNumberInput.value = digits.replace(/(\d{4})(?=\d)/g, "$1 ");
+        setFieldError(cardNumberInput, cardNumberErr, hadLetters ? "لا يمكنك إدخال أحرف هنا، أدخل أرقاماً فقط." : "");
+      });
+
+      cardExpiryInput?.addEventListener("input", () => {
+        const hadLetters = /[^\d/]/.test(cardExpiryInput.value);
+        const digits = cardExpiryInput.value.replace(/\D/g, "").slice(0, 4);
+        cardExpiryInput.value = digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+        setFieldError(cardExpiryInput, cardExpiryErr, hadLetters ? "لا يمكنك إدخال أحرف هنا، أدخل أرقاماً فقط." : "");
+      });
+
+      cardCvvInput?.addEventListener("keydown", (e) => {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        if (/^\d$/.test(e.key)) {
+          const currentDigits = cardCvvInput.value.replace(/\D/g, "");
+          const hasSelection =
+            cardCvvInput.selectionStart !== null &&
+            cardCvvInput.selectionEnd !== null &&
+            cardCvvInput.selectionEnd > cardCvvInput.selectionStart;
+
+          if (!hasSelection && currentDigits.length >= CVV_MAX_DIGITS) {
+            e.preventDefault();
+          }
+        }
+      });
+
+      cardCvvInput?.addEventListener("input", () => {
+        const hadLetters = /\D/.test(cardCvvInput.value);
+        cardCvvInput.value = cardCvvInput.value.replace(/\D/g, "").slice(0, CVV_MAX_DIGITS);
+        setFieldError(cardCvvInput, cardCvvErr, hadLetters ? "لا يمكنك إدخال أحرف هنا، أدخل أرقاماً فقط." : "");
+      });
+
+      function clearAllCardErrors() {
+        setFieldError(cardHolderInput, cardHolderErr, "");
+        setFieldError(cardNumberInput, cardNumberErr, "");
+        setFieldError(cardExpiryInput, cardExpiryErr, "");
+        setFieldError(cardCvvInput, cardCvvErr, "");
+      }
+
+      function openCardModal() {
+        clearAllCardErrors();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        cardModal?.classList.add("is-open");
+        cardModal?.setAttribute("aria-hidden", "false");
+        setTimeout(() => cardHolderInput?.focus(), 80);
+      }
+
+      function closeCardModal() {
+        cardModal?.classList.remove("is-open");
+        cardModal?.setAttribute("aria-hidden", "true");
+      }
+
+      function openAppleModal() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        appleModal?.classList.add("is-open");
+        appleModal?.setAttribute("aria-hidden", "false");
+      }
+
+      function closeAppleModal() {
+        appleModal?.classList.remove("is-open");
+        appleModal?.setAttribute("aria-hidden", "true");
+      }
+
+      document.getElementById("close-card-modal")?.addEventListener("click", closeCardModal);
+      document.getElementById("cancel-card-modal")?.addEventListener("click", closeCardModal);
+
+      document.getElementById("close-apple-modal")?.addEventListener("click", closeAppleModal);
+      document.getElementById("close-apple-btn")?.addEventListener("click", closeAppleModal);
+      document.getElementById("switch-to-mada-btn")?.addEventListener("click", () => {
+        closeAppleModal();
+        if (paymentSelect) paymentSelect.value = "mada";
+      });
+
+      paymentSelect?.addEventListener("change", () => {
+        if (paymentSelect.value === "apple-pay") {
+          openAppleModal();
+        }
+      });
+
+      async function finalizeOrder(orderPayload) {
+        const { name, phone, email, city, paymentMethod, orderNumber, orderTotalFormatted, coffeeQuote } = orderPayload;
+
+        triggerPaymentLoader("جاري تأكيد الطلب...", 4000);
+
+        let emailSent = false;
+        let emailErrorText = "";
+
+        if (!window.emailjs) {
+          emailErrorText = "لم يتم تحميل مكتبة EmailJS في الصفحة.";
+          console.warn("EmailJS status:", emailErrorText);
+        } else if (!email) {
+          emailErrorText = "لم يتم إدخال بريد إلكتروني.";
+          console.warn("EmailJS status:", emailErrorText);
+        } else {
+          try {
+            const res = await emailjs.send(
+              EMAILJS_SERVICE_ID,
+              EMAILJS_TEMPLATE_ID,
+              {
+                customer_name: name,
+                email: email,
+                to_email: email,
+                order_number: orderNumber,
+                order_total: orderTotalFormatted,
+                coffee_quote: coffeeQuote,
+                thumbnail_url: THUMBNAIL_URL
+              },
+              EMAILJS_PUBLIC_KEY
+            );
+            console.log("EmailJS sent successfully:", res, "Quote:", coffeeQuote);
+            emailSent = true;
+          } catch (err) {
+            console.error("EmailJS error details:", err);
+            emailErrorText = err?.text || err?.message || "تعذر إرسال البريد الإلكتروني.";
+          }
+        }
+
+        const emailNotice = email
+          ? `سيتم إرسال تفاصيل الطلب إلى بريدك الإلكتروني (${email}).`
+          : "سيتم إرسال تفاصيل الطلب إلى بريدك الإلكتروني.";
+
+        sessionStorage.setItem(
+          "spill_last_order",
+          JSON.stringify({
+            orderNumber,
+            name,
+            phone,
+            city,
+            email,
+            paymentMethod,
+            totalFormatted: orderTotalFormatted,
+            coffeeQuote,
+            emailNotice,
+            emailSent,
+            emailErrorText
+          })
+        );
+
+        cart = [];
+        localStorage.setItem("spill_cart", "[]");
+        renderCheckoutSummary();
+        formEl?.reset();
+        cardForm?.reset();
+
+        navigateSmoothly("order-confirmed.html");
+      }
+
+      formEl?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (cart.length === 0) {
+          if (resultBox) {
+            resultBox.hidden = false;
+            resultBox.textContent = "السلة فارغة، أضف منتجاً أولاً.";
+          }
+          return;
+        }
+
+        const paymentMethod = paymentSelect?.value || "mada";
+        if (paymentMethod === "apple-pay") {
+          openAppleModal();
+          return;
+        }
+
+        const name = nameInput?.value.trim() || "";
+        const phone = (phoneInput?.value || "").trim();
+        const email = emailInput?.value.trim() || "";
+        const city = cityInput?.value.trim() || "";
+
+        let hasBasicError = false;
+        if (!name) {
+          setFieldError(nameInput, nameErr, "الاسم الكامل مطلوب.");
+          hasBasicError = true;
+        } else {
+          setFieldError(nameInput, nameErr, "");
+        }
+
+        if (!/^\d{7,15}$/.test(phone)) {
+          setFieldError(phoneInput, phoneErr, "أدخل رقم جوال صحيحاً بالأرقام فقط.");
+          hasBasicError = true;
+        } else {
+          setFieldError(phoneInput, phoneErr, "");
+        }
+
+        if (!email) {
+          setFieldError(emailInput, emailErr, "البريد الإلكتروني مطلوب.");
+          hasBasicError = true;
+        } else {
+          setFieldError(emailInput, emailErr, "");
+        }
+
+        if (!city) {
+          setFieldError(cityInput, cityErr, "المدينة والحي مطلوبان.");
+          hasBasicError = true;
+        } else {
+          setFieldError(cityInput, cityErr, "");
+        }
+
+        if (hasBasicError) return;
+
+        const total = cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 1), 0);
+        const orderNumber = "SP-" + Math.floor(100000 + Math.random() * 900000);
+        const orderTotalFormatted = `${total.toFixed(2)} ر.س`;
+        const coffeeQuote = getRandomCoffeeQuote();
+
+        pendingOrderPayload = {
+          name,
+          phone,
+          email,
+          city,
+          paymentMethod,
+          orderNumber,
+          orderTotalFormatted,
+          coffeeQuote
+        };
+
+        if (paymentMethod === "mada") {
+          openCardModal();
+          return;
+        }
+
+        finalizeOrder(pendingOrderPayload);
+      });
+
+      cardForm?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!pendingOrderPayload) return;
+
+        clearAllCardErrors();
+
+        const holder = (cardHolderInput?.value || "").trim();
+        const rawCard = (cardNumberInput?.value || "").replace(/\D/g, "");
+        const rawExpiry = (cardExpiryInput?.value || "").replace(/\D/g, "");
+        const rawCvv = (cardCvvInput?.value || "").replace(/\D/g, "");
+
+        let hasError = false;
+
+        if (!holder || !/^[A-Za-z\u0600-\u06FF\s]+$/.test(holder)) {
+          setFieldError(cardHolderInput, cardHolderErr, "لا يمكنك إدخال أرقام هنا، أدخل أحرفاً فقط.");
+          hasError = true;
+        }
+
+        if (rawCard.length !== CARD_MAX_DIGITS) {
+          setFieldError(
+            cardNumberInput,
+            cardNumberErr,
+            `أدخل رقم البطاقة مكوناً من ${CARD_MAX_DIGITS} أرقام بالضبط.`
+          );
+          hasError = true;
+        }
+
+        if (rawExpiry.length < 4) {
+          setFieldError(cardExpiryInput, cardExpiryErr, "أدخل تاريخ الانتهاء بالأرقام فقط (مثال: 08/28).");
+          hasError = true;
+        }
+
+        if (rawCvv.length !== CVV_MAX_DIGITS) {
+          setFieldError(
+            cardCvvInput,
+            cardCvvErr,
+            `أدخل رمز CVV مكوناً من ${CVV_MAX_DIGITS} أرقام بالضبط.`
+          );
+          hasError = true;
+        }
+
+        if (hasError) return;
+
+        closeCardModal();
+        finalizeOrder(pendingOrderPayload);
+      });
+    });
+  </script>
+</body>
+</html>

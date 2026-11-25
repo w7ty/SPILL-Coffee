@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPILL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- شاشة التحميل بمقطع إنتر بحواف ناعمة بدون حدود حادة -->
+  <div id="preloader" class="preloader" aria-hidden="true">
+    <div class="preloader-frame">
+      <video id="preloader-video" autoplay playsinline preload="auto" class="preloader-video">
+        <source src="image-coffee/intro-preloader.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+
+  <!-- شاشة تحميل ناعمة للأقسام وانتظار الدفع -->
+  <div id="section-loader" class="section-loader" aria-hidden="true">
+    <div class="section-loader-card">
+      <img src="image-coffee/image-loading.jpeg" alt="جاري التحميل" class="section-loader-img" />
+      <p id="section-loader-text" class="section-loader-text">جاري تحميل القسم...</p>
+    </div>
+  </div>
+
+  <!-- الهيدر -->
+  <header class="site-header">
+    <div class="header-right">
+      <button id="menu-toggle" class="icon-btn" aria-label="الأقسام">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <span class="brand-name">SPILL</span>
+    </div>
+
+    <div class="header-center">
+      <a href="index.html" class="center-logo-link" aria-label="SPILL">
+        <img src="image-coffee/logo-spill.png" alt="w7ty logo" class="center-logo-img" />
+      </a>
+    </div>
+
+    <div class="header-left">
+      <button id="theme-toggle" class="icon-btn" aria-label="تبديل الوضع الليلي">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button id="cart-toggle" class="checkout-link" type="button">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>السلة (<span id="cart-count">0</span>)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- القائمة الجانبية للأقسام (Drawer) -->
+  <div id="drawer-overlay" class="drawer-overlay" hidden></div>
+  <aside id="category-drawer" class="category-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h3>أقسام المتجر</h3>
+      <button id="menu-close" class="icon-btn" aria-label="إغلاق القائمة">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <nav class="drawer-nav">
+      <button class="category-link active" data-category="all">الرئيسية والعروض</button>
+
+      <!-- 1. القهوة -->
+      <div class="nav-group">
+        <button class="group-toggle" type="button">
+          <span>القهوة</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="sub-menu">
+          <button class="category-link" data-category="beans">محاصيل</button>
+          <button class="category-link" data-category="drip-bags">أظرف قهوة</button>
+        </div>
+      </div>
+
+      <!-- 2. أدوات الترشيح -->
+      <div class="nav-group">
+        <button class="group-toggle" type="button">
+          <span>أدوات الترشيح</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="sub-menu">
+          <button class="category-link" data-category="drippers">أقماع</button>
+          <button class="category-link" data-category="servers">سيرفرات قهوة</button>
+          <button class="category-link" data-category="filters">فلاتر</button>
+        </div>
+      </div>
+
+      <!-- 3. الطواحين والعناية -->
+      <div class="nav-group">
+        <button class="group-toggle" type="button">
+          <span>الطواحين والعناية</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="sub-menu">
+          <button class="category-link" data-category="manual-grinders">طواحين يدوية</button>
+          <button class="category-link" data-category="electric-grinders">طواحين كهربائية</button>
+          <button class="category-link" data-category="grinder-cleaning">أدوات تنظيف المطحنة</button>
+        </div>
+      </div>
+
+      <!-- 4. الأباريق والموازين -->
+      <div class="nav-group">
+        <button class="group-toggle" type="button">
+          <span>الأباريق والموازين</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="sub-menu">
+          <button class="category-link" data-category="manual-kettles">أباريق يدوية</button>
+          <button class="category-link" data-category="electric-kettles">أباريق كهربائية</button>
+          <button class="category-link" data-category="scales">موازين</button>
+        </div>
+      </div>
+
+      <!-- 5. آلات القهوة -->
+      <button class="category-link" data-category="machines">آلات قهوة</button>
+
+      <!-- 6. الإكسسوارات -->
+      <div class="nav-group">
+        <button class="group-toggle" type="button">
+          <span>الإكسسوارات</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="sub-menu">
+          <button class="category-link" data-category="cups">أكواب</button>
+          <button class="category-link" data-category="stickers">ملصقات</button>
+        </div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- سلة المشتريات المنبثقة عند الضغط على السلة -->
+  <div id="cart-overlay" class="cart-overlay" hidden></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h3>السلة</h3>
+      <button id="cart-close" class="icon-btn" aria-label="إغلاق السلة">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <div class="cart-summary">
+      <span>الإجمالي:</span>
+      <strong id="cart-total">0.00 ر.س</strong>
+    </div>
+    <a href="checkout.html" class="checkout-btn">إتمام الطلب</a>
+  </aside>
+
+  <!-- محتوى الصفحة الرئيسية: الفيديو + قصتنا + فلسفتنا -->
+  <div id="home-editorial-content">
+    <!-- الفيديو الصامت فوق قصتنا -->
+    <section class="feed-video-section" aria-label="مقطع الفيديو التعريفي">
+      <div class="feed-video-box">
+        <video autoplay muted loop playsinline class="feed-video">
+          <source src="image-coffee/mp4-coffee.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </section>
+
+    <!-- قسم قصتنا وفلسفتنا بفريم صور وحركة انتقال بطيئة وسلسة -->
+    <section class="brand-story-wrapper">
+      <!-- قصتنا -->
+      <div class="reveal-frame story-frame" data-reveal>
+        <div class="frame-media">
+          <img src="image-coffee/image-divider.2.jpeg.jpeg" alt="إطار قصتنا" class="frame-img" />
+        </div>
+        <div class="frame-content">
+          <h2>قصتنا</h2>
+          <p>
+            بدأت حكاية <strong>SPILL</strong> من شغفٍ بسيط بلحظة سكب القهوة الأولى في الصباح؛ تلك اللحظة الساكنة التي يتوقف فيها صخب اليوم وتسارع تفاصيله، ليبدأ إيقاعٌ مختلف يخصّك وحدك. بالنسبة لنا، لم تكن القهوة يوماً مجرد مشروبٍ عابر، بل طقساً يومياً يجمع بين دقة التحضير وهدوء التأمل، حيث يلتقي عبير البنّ المطحون للتوّ مع انسياب الماء الدافئ في تناغمٍ يصنع بدايةً استثنائية ليومك.
+          </p>
+          <p>
+            من هذا الإيمان، وُلدت <strong>SPILL</strong> لتجمع كل ما يحتاجه محب القهوة المختصة في مكانٍ واحد، دون عناء البحث أو التشتت. حرصنا على انتقاء محاصيل قهوة فاخرة بعناية من أجود السلالات، وجمعناها جنباً إلى جنب مع أدوات التحضير الدقيقة التي تمنحك التحكم الكامل في كل استخلاص؛ لتتحول زاوية قهوتك في المنزل إلى مساحةٍ ملهمة تمنحك التوازن والصفاء في كل كوب.
+          </p>
+          <p>
+            نحن نؤمن بأن الفرق الحقيقي تصنعه التفاصيل الصغيرة؛ في درجة الطحن، في حرارة الماء، وفي انسيابية السكب. فكل تفصيلٍ دقيق في رحلة التحضير يترك أثراً واضحاً في النتيجة النهائية. وسواء كنت في بداية شغفك بعالم القهوة المختصة أو متذوقاً يبحث عن الكمال في كل رشفة، صُممت <strong>SPILL</strong> لترافقك في كل خطوة، وتجعل من تحضير قهوتك لحظةً تُشبهك.
+          </p>
+        </div>
+      </div>
+
+      <!-- فلسفتنا -->
+      <div class="reveal-frame philosophy-frame" data-reveal>
+        <div class="frame-media">
+          <img src="image-coffee/image-divider.3.jpeg" alt="إطار فلسفتنا" class="frame-img" />
+        </div>
+        <div class="frame-content">
+          <h2>فلسفتنا</h2>
+          <p class="philosophy-narrative">
+            في كل صباح، وبينما يمضي العالم في سباقه المعتاد، نختار هنا أن نُبطئ الزمن وننسج إيقاعنا الخاص؛ في ملاذٍ دافئ صُنع ليكون مساحةً للسكينة، حيث الهدوء والموسيقى والقهوة يلتقون في تناغمٍ أزلي لا يشبهه شيء. تبدأ الحكاية في تلك اللحظة الساحرة حين تلامس حبات البن المختارة بعناية دفء الماء الأول، فتستيقظ الذاكرة العطرية لكل محصول، وتتفتح الروائح في الأجواء بتأنٍّ وعذوبة، في مشهدٍ يشبه مقطوعةً موسيقية تُعزف على مهل؛ تبدأ بنغمةٍ خافتة، ثم تتصاعد إيحاءاتها بنعومةٍ لتملأ المكان حياةً ودفئاً.
+          </p>
+          <p class="philosophy-narrative">
+            ومع كل حركةٍ مدروسة، يمضي الصبّ بخطٍ دائري متزن، كأنما ترسم اليد لحناً هادئاً يوازن بشغفٍ ودقة بين حرارة الماء، وصفاء النكهة، وعمق الاستخلاص، لتبوح كل قطرةٍ بأسرارها دون تكلّف. هنا، نؤمن أن القهوة ليست مجرد مشروبٍ عابر يُحتسى على عجل، بل هي طقسٌ يحتفي بالجمال الكامن في التمهّل؛ فالكوب الذي يستقر بين يديك ما هو إلا حوارٌ صامتٌ بين الوقت واليد والذائقة، ورسالةٌ رقيقة تهمس في كل رشفة بأن أعمق اللحظات وأكثرها صدقاً في هذه الحياة، هي تلك التي تولد حين نمنح التفاصيل الصغيرة حقها الكامل... دون استعجال.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- المحتوى الرئيسي: العروض في آخر الصفحة الرئيسية، أو منتجات القسم عند اختيار قسم -->
+  <main class="container">
+    <section class="products-section">
+      <div class="section-header">
+        <h2 id="current-category-title">العروض الحالية</h2>
+      </div>
+
+      <!-- شريط العروض المتحرك مع إمكانية السحب والتقليب اليدوي -->
+      <div id="offers-track" class="offers-track"></div>
+
+      <!-- شبكة منتجات القسم عند اختيار قسم من القائمة -->
+      <div id="products-grid" class="products-grid" hidden></div>
+    </section>
+  </main>
+
+  <!-- زر الصعود للأعلى -->
+  <button id="scroll-top-btn" class="scroll-top-btn" aria-label="الصعود للأعلى">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- الفوتر -->
+  <footer class="site-footer">
+    <div class="social-links">
+      <a href="https://wa.me/966533110310" target="_blank" rel="noopener" aria-label="واتساب">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+      <a href="tel:+966530971126" aria-label="اتصال">
+        <i class="fa-solid fa-phone"></i>
+      </a>
+      <a href="https://instagram.com/ilysalbtw" target="_blank" rel="noopener" aria-label="إنستغرام">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://tiktok.com/@w7ty" target="_blank" rel="noopener" aria-label="تيك توك">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="mailto:saif.almuqayyid@gmail.com" aria-label="البريد الإلكتروني">
+        <i class="fa-solid fa-envelope"></i>
+      </a>
+    </div>
+    <p class="copyright">جميع الحقوق محفوظة &copy; 2026 w7ty</p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
