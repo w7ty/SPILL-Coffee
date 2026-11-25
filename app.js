@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let preloaderClosed = false;
   let preloaderSafetyTimer = null;
 
+  const ua = navigator.userAgent || "";
+  const isSafariBrowser =
+    /Safari/i.test(ua) && !/Chrome|CriOS|Android|EdgiOS|OPiOS/i.test(ua);
+
   const urlParams = new URLSearchParams(window.location.search);
   const cameFromCheckout =
     urlParams.get("from") === "checkout" ||
@@ -46,15 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
       clearTimeout(preloaderSafetyTimer);
 
       if (preloaderVideo) {
-        preloaderVideo.removeEventListener("ended", finishPreloader);
         preloaderVideo.loop = false;
+        preloaderVideo.onended = null;
+        preloaderVideo.ontimeupdate = null;
         preloaderVideo.pause();
       }
 
       preloader.classList.add("zoom-out");
+      const removeDelay = isSafariBrowser ? 220 : 550;
       setTimeout(() => {
         preloader.remove();
-      }, 650);
+      }, removeDelay);
     }
 
     function enableSoundOnUserGesture() {
@@ -70,13 +76,22 @@ document.addEventListener("DOMContentLoaded", () => {
       preloaderVideo.loop = false;
       preloaderVideo.playsInline = true;
 
-      preloaderVideo.addEventListener("ended", finishPreloader, { once: true });
+      preloaderVideo.onended = () => {
+        finishPreloader();
+      };
+
+      preloaderVideo.ontimeupdate = () => {
+        if (preloaderClosed || !preloaderVideo.duration) return;
+        if (preloaderVideo.currentTime >= preloaderVideo.duration - 0.12) {
+          finishPreloader();
+        }
+      };
+
       preloaderVideo.addEventListener("error", () => {
         clearTimeout(preloaderSafetyTimer);
-        preloaderSafetyTimer = setTimeout(finishPreloader, 500);
+        preloaderSafetyTimer = setTimeout(finishPreloader, 400);
       }, { once: true });
 
-      // محاولة التشغيل بالصوت أولاً، وإذا منعها الجوال يبدأ صامتاً فوراً ثم يفتح الصوت عند اللمس
       preloaderVideo.muted = false;
       preloaderVideo.volume = 1;
       preloaderVideo.play().catch(() => {
@@ -90,7 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener(evt, enableSoundOnUserGesture, { once: true, passive: true });
     });
 
-    preloaderSafetyTimer = setTimeout(finishPreloader, 6500);
+    const safetyMs = isSafariBrowser ? 5000 : 5500;
+    preloaderSafetyTimer = setTimeout(finishPreloader, safetyMs);
   }
 
   const sectionLoader = document.getElementById("section-loader");
