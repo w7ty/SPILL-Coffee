@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    preloaderSafetyTimer = setTimeout(finishPreloader, 7500);
+    preloaderSafetyTimer = setTimeout(finishPreloader, 6500);
   }
 
   const sectionLoader = document.getElementById("section-loader");
