@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       preloader.classList.add("zoom-out");
-      const removeDelay = isSafariBrowser ? 350 : isMobileChrome ? 650 : 550;
+      const removeDelay = isSafariBrowser ? 350 : isMobileChrome ? 700 : 550;
       setTimeout(() => {
         preloader.remove();
       }, removeDelay);
@@ -76,19 +76,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (preloaderVideo) {
-      preloaderVideo.loop = false;
+      preloaderVideo.loop = !isSafariBrowser;
       preloaderVideo.playsInline = true;
 
-      preloaderVideo.onended = () => {
-        finishPreloader();
-      };
-
-      preloaderVideo.ontimeupdate = () => {
-        if (preloaderClosed || !preloaderVideo.duration) return;
-        if (preloaderVideo.currentTime >= preloaderVideo.duration - 0.08) {
+      if (isSafariBrowser) {
+        preloaderVideo.onended = () => {
           finishPreloader();
-        }
-      };
+        };
+
+        preloaderVideo.ontimeupdate = () => {
+          if (preloaderClosed || !preloaderVideo.duration) return;
+          if (preloaderVideo.currentTime >= preloaderVideo.duration - 0.08) {
+            finishPreloader();
+          }
+        };
+      }
 
       preloaderVideo.addEventListener("error", () => {
         clearTimeout(preloaderSafetyTimer);
@@ -108,14 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener(evt, enableSoundOnUserGesture, { once: true, passive: true });
     });
 
-    // الجوال: نزود ثانية ونصف (+1500ms) -> سفاري 6700ms، كروم الجوال 8700ms، باقي الجوالات 8000ms
-    // اللابتوب: ننقص نص ثانية (-500ms من 6500ms) -> 6000ms
     const safetyMs = isMobileDevice
       ? isSafariBrowser
         ? 6700
         : isMobileChrome
-          ? 8700
-          : 8000
+          ? 10500
+          : 9500
       : 6000;
     preloaderSafetyTimer = setTimeout(finishPreloader, safetyMs);
   }
