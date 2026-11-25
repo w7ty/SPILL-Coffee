@@ -23,8 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let preloaderSafetyTimer = null;
 
   const ua = navigator.userAgent || "";
+  const isMobileDevice = /iPhone|iPad|iPod|Android|Mobile/i.test(ua);
   const isSafariBrowser =
     /Safari/i.test(ua) && !/Chrome|CriOS|Android|EdgiOS|OPiOS/i.test(ua);
+  const isMobileChrome =
+    isMobileDevice && (/CriOS/i.test(ua) || (/Chrome/i.test(ua) && /Android/i.test(ua)));
 
   const urlParams = new URLSearchParams(window.location.search);
   const cameFromCheckout =
@@ -57,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       preloader.classList.add("zoom-out");
-      const removeDelay = isSafariBrowser ? 350 : 550;
+      const removeDelay = isSafariBrowser ? 350 : isMobileChrome ? 650 : 550;
       setTimeout(() => {
         preloader.remove();
       }, removeDelay);
@@ -82,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       preloaderVideo.ontimeupdate = () => {
         if (preloaderClosed || !preloaderVideo.duration) return;
-        if (preloaderVideo.currentTime >= preloaderVideo.duration - 0.12) {
+        if (preloaderVideo.currentTime >= preloaderVideo.duration - 0.08) {
           finishPreloader();
         }
       };
@@ -105,8 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener(evt, enableSoundOnUserGesture, { once: true, passive: true });
     });
 
-    // سفاري: ننقص 0.30 ثانية (300ms) -> 5200ms، كروم: نزيد 1 ثانية (1000ms) -> 6500ms
-    const safetyMs = isSafariBrowser ? 5200 : 6500;
+    // سفاري: 5200ms، كروم الجوال: 7200ms لكي يصل للحد المطلوب دون نقص، وباقي المتصفحات (كروم اللابتوب): 6500ms
+    const safetyMs = isSafariBrowser ? 5200 : isMobileChrome ? 7200 : 6500;
     preloaderSafetyTimer = setTimeout(finishPreloader, safetyMs);
   }
 
