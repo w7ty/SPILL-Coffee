@@ -108,8 +108,15 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener(evt, enableSoundOnUserGesture, { once: true, passive: true });
     });
 
-    // سفاري: 5200ms، كروم الجوال: 7200ms لكي يصل للحد المطلوب دون نقص، وباقي المتصفحات (كروم اللابتوب): 6500ms
-    const safetyMs = isSafariBrowser ? 5200 : isMobileChrome ? 7200 : 6500;
+    // الجوال: نزود ثانية ونصف (+1500ms) -> سفاري 6700ms، كروم الجوال 8700ms، باقي الجوالات 8000ms
+    // اللابتوب: ننقص نص ثانية (-500ms من 6500ms) -> 6000ms
+    const safetyMs = isMobileDevice
+      ? isSafariBrowser
+        ? 6700
+        : isMobileChrome
+          ? 8700
+          : 8000
+      : 6000;
     preloaderSafetyTimer = setTimeout(finishPreloader, safetyMs);
   }
 
