@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       preloader.classList.add("zoom-out");
-      const removeDelay = isSafariBrowser ? 220 : 550;
+      const removeDelay = isSafariBrowser ? 350 : 550;
       setTimeout(() => {
         preloader.remove();
       }, removeDelay);
@@ -105,7 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener(evt, enableSoundOnUserGesture, { once: true, passive: true });
     });
 
-    const safetyMs = isSafariBrowser ? 5000 : 5500;
+    // سفاري: ننقص 0.30 ثانية (300ms) -> 5200ms، كروم: نزيد 1 ثانية (1000ms) -> 6500ms
+    const safetyMs = isSafariBrowser ? 5200 : 6500;
     preloaderSafetyTimer = setTimeout(finishPreloader, safetyMs);
   }
 
