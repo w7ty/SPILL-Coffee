@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       preloaderVideo.play().catch(() => {});
     }
 
-    preloaderSafetyTimer = setTimeout(finishPreloader, 25000);
+    preloaderSafetyTimer = setTimeout(finishPreloader, 5500);
   }
 
   const sectionLoader = document.getElementById("section-loader");
