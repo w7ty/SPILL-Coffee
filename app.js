@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const preloader = document.getElementById("preloader");
   const preloaderVideo = document.getElementById("preloader-video");
   let preloaderClosed = false;
+  let preloaderSafetyTimer = null;
 
   const urlParams = new URLSearchParams(window.location.search);
   const cameFromCheckout =
@@ -39,18 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
       preloader.remove();
     }
   } else {
-    function unlockAudioWithoutInterrupting() {
-      if (!preloaderVideo) return;
-      preloaderVideo.muted = false;
-      preloaderVideo.volume = 1;
-      if (preloaderVideo.paused && !preloaderClosed) {
-        preloaderVideo.play().catch(() => {});
-      }
-    }
-
     function finishPreloader() {
       if (preloaderClosed || !preloader) return;
       preloaderClosed = true;
+      clearTimeout(preloaderSafetyTimer);
       if (preloaderVideo) {
         preloaderVideo.pause();
       }
@@ -62,22 +55,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (preloaderVideo) {
       preloaderVideo.loop = false;
+      preloaderVideo.muted = true;
+      preloaderVideo.playsInline = true;
       preloaderVideo.addEventListener("ended", finishPreloader);
-      preloaderVideo.addEventListener("error", () => setTimeout(finishPreloader, 500));
-
-      preloaderVideo.muted = false;
-      preloaderVideo.volume = 1;
-      preloaderVideo.play().catch(() => {
-        preloaderVideo.muted = true;
-        preloaderVideo.play().catch(() => {});
+      preloaderVideo.addEventListener("error", () => {
+        clearTimeout(preloaderSafetyTimer);
+        preloaderSafetyTimer = setTimeout(finishPreloader, 500);
       });
+
+      preloaderVideo.play().catch(() => {});
     }
 
-    ["pointerdown", "touchstart", "keydown"].forEach((evt) => {
-      window.addEventListener(evt, unlockAudioWithoutInterrupting, { once: true, passive: true });
-    });
-
-    setTimeout(finishPreloader, 5000);
+    preloaderSafetyTimer = setTimeout(finishPreloader, 25000);
   }
 
   const sectionLoader = document.getElementById("section-loader");
