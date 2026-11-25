@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const preloader = document.getElementById("preloader");
   const preloaderVideo = document.getElementById("preloader-video");
   let preloaderClosed = false;
+  let preloaderStarted = false;
   let preloaderSafetyTimer = null;
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -44,9 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (preloaderClosed || !preloader) return;
       preloaderClosed = true;
       clearTimeout(preloaderSafetyTimer);
+
       if (preloaderVideo) {
+        preloaderVideo.removeEventListener("ended", finishPreloader);
+        preloaderVideo.loop = false;
         preloaderVideo.pause();
       }
+
       preloader.classList.add("zoom-out");
       setTimeout(() => {
         preloader.remove();
@@ -57,16 +62,20 @@ document.addEventListener("DOMContentLoaded", () => {
       preloaderVideo.loop = false;
       preloaderVideo.muted = true;
       preloaderVideo.playsInline = true;
-      preloaderVideo.addEventListener("ended", finishPreloader);
+
+      preloaderVideo.addEventListener("ended", finishPreloader, { once: true });
       preloaderVideo.addEventListener("error", () => {
         clearTimeout(preloaderSafetyTimer);
         preloaderSafetyTimer = setTimeout(finishPreloader, 500);
-      });
+      }, { once: true });
 
-      preloaderVideo.play().catch(() => {});
+      if (!preloaderStarted && preloaderVideo.paused) {
+        preloaderStarted = true;
+        preloaderVideo.play().catch(() => {});
+      }
     }
 
-    preloaderSafetyTimer = setTimeout(finishPreloader, 5500);
+    preloaderSafetyTimer = setTimeout(finishPreloader, 7500);
   }
 
   const sectionLoader = document.getElementById("section-loader");
