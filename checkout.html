@@ -57,6 +57,7 @@
       flex-direction: column;
       gap: 2.5rem;
       flex: 1;
+      box-sizing: border-box;
     }
 
     .co-grid {
@@ -141,25 +142,26 @@
     }
 
     .co-photo-frame {
-      background-color: var(--co-surface);
+      background-color: #f6f3ee;
       border: 1px solid var(--co-line);
-      border-radius: 22px;
-      padding: 0.6rem;
+      border-radius: 20px;
+      padding: 0;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 320px;
-      max-height: 440px;
+      min-height: 300px;
+      max-height: 430px;
       box-sizing: border-box;
     }
 
     .co-photo-frame img {
       width: 100%;
       height: 100%;
-      max-height: 420px;
+      max-height: 430px;
       object-fit: cover;
-      border-radius: 16px;
+      object-position: center top;
+      border-radius: 20px;
       display: block;
     }
 
@@ -334,19 +336,104 @@
     }
 
     @media (max-width: 860px) {
-      .co-grid,
-      .co-two-cols {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
+      .co-main {
+        margin: 1rem auto 2.2rem;
+        padding: 0 0.7rem;
+        gap: 1.15rem;
       }
 
+      /* القسم الأول: ملخص السلة يمين + الصورة الأولى يسار */
+      .co-main > .co-grid:first-of-type {
+        grid-template-columns: minmax(0, 1.32fr) minmax(0, 0.95fr) !important;
+        gap: 0.65rem !important;
+        align-items: stretch !important;
+      }
+
+      /* القسم الثاني: الصورة الثانية يمين + البيانات يسار */
+      .co-main > .co-grid:last-of-type {
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.32fr) !important;
+        gap: 0.65rem !important;
+        align-items: start !important;
+      }
+
+      .co-main > .co-grid:last-of-type .co-photo-frame {
+        order: -1 !important;
+      }
+
+      .co-two-cols {
+        grid-template-columns: 1fr !important;
+        gap: 0.55rem !important;
+      }
+
+      .co-card {
+        padding: 0.8rem !important;
+        border-radius: 16px !important;
+      }
+
+      .co-title {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.7rem !important;
+        padding-bottom: 0.45rem !important;
+      }
+
+      .co-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.25rem !important;
+        padding: 0.55rem 0.65rem !important;
+        font-size: 0.78rem !important;
+        border-radius: 11px !important;
+      }
+
+      .co-total {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.2rem !important;
+        font-size: 0.88rem !important;
+        padding-top: 0.6rem !important;
+      }
+
+      .co-field {
+        margin-bottom: 0.55rem !important;
+        gap: 0.25rem !important;
+      }
+
+      .co-field label {
+        font-size: 0.76rem !important;
+      }
+
+      .co-field input,
+      .co-field select,
+      .co-field textarea {
+        padding: 0.5rem 0.6rem !important;
+        font-size: 0.78rem !important;
+        border-radius: 10px !important;
+      }
+
+      .co-submit-btn {
+        padding: 0.65rem 0.85rem !important;
+        font-size: 0.82rem !important;
+      }
+
+      /* موازنة الصورة الثانية من الأعلى وبنفس نقاء الأولى */
       .co-photo-frame {
-        min-height: 230px;
-        max-height: 300px;
+        min-height: 170px !important;
+        max-height: none !important;
+        height: auto !important;
+        padding: 0 !important;
+        border-radius: 16px !important;
+        background-color: #f6f3ee !important;
+        align-self: stretch !important;
       }
 
       .co-photo-frame img {
-        max-height: 280px;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 170px !important;
+        max-height: none !important;
+        object-fit: cover !important;
+        object-position: center top !important;
+        border-radius: 16px !important;
       }
     }
   </style>
@@ -443,10 +530,12 @@
             <div class="co-field">
               <label for="payment-method">طريقة الدفع</label>
               <select id="payment-method" name="paymentMethod">
+                <option value="" selected disabled>اختر طريقة الدفع...</option>
                 <option value="mada">مدى / بطاقة بنكية</option>
-                <option value="apple-pay">Apple Pay — شغالين عليها</option>
+                <option value="apple-pay">Apple Pay</option>
                 <option value="cod">الدفع عند الاستلام</option>
               </select>
+              <span id="err-payment-method" class="co-field-error-msg"></span>
             </div>
 
             <div class="co-field">
@@ -522,16 +611,15 @@
           <span style="font-weight: 800; font-size: 1.05rem;">
             <i class="fa-brands fa-apple"></i> Pay — SPILL
           </span>
-          <span class="co-apple-badge">شغالين عليها</span>
+          <span class="co-apple-badge">غير متوفرة بعد</span>
         </div>
-        <p style="margin: 0; font-size: 0.9rem; line-height: 1.7; color: #e8e2da;">
-          ميزة الدفع عبر <strong>Apple Pay</strong> قيد التطوير حالياً وحالياً نحن <strong>شغالين عليها</strong> لتجربة أسرع وأفخم. اختر «مدى / بطاقة بنكية» أو «الدفع عند الاستلام» لإتمام طلبك الآن.
+        <p style="margin: 0; font-size: 0.9rem; line-height: 1.8; color: #e8e2da;">
+          بين هدوء المكان، ودفء الموسيقى، وحضور القهوة الذي يبطئ الزمن، نوضح أن <strong>Apple Pay</strong> لم تتوفر بعد وما زلنا نعمل على إتاحتها؛ اختر وسيلة دفع أخرى لتكمل طلبك الآن.
         </p>
       </div>
 
       <div class="co-modal-actions">
-        <button type="button" id="switch-to-mada-btn" class="co-btn-confirm">اختيار البطاقة البنكية</button>
-        <button type="button" id="close-apple-btn" class="co-btn-secondary">حسناً</button>
+        <button type="button" id="close-apple-btn" class="co-btn-confirm">حسناً</button>
       </div>
     </div>
   </div>
@@ -665,6 +753,7 @@
       const resultBox = document.getElementById("order-result-box");
       const formEl = document.getElementById("checkout-order-form");
       const paymentSelect = document.getElementById("payment-method");
+      const paymentErr = document.getElementById("err-payment-method");
 
       const nameInput = document.getElementById("customer-name");
       const nameErr = document.getElementById("err-customer-name");
@@ -826,22 +915,28 @@
         appleModal?.setAttribute("aria-hidden", "false");
       }
 
-      function closeAppleModal() {
+      function closeAppleModal({ resetPaymentSelection = false } = {}) {
         appleModal?.classList.remove("is-open");
         appleModal?.setAttribute("aria-hidden", "true");
+        if (resetPaymentSelection && paymentSelect && paymentSelect.value === "apple-pay") {
+          paymentSelect.value = "";
+        }
       }
 
       document.getElementById("close-card-modal")?.addEventListener("click", closeCardModal);
       document.getElementById("cancel-card-modal")?.addEventListener("click", closeCardModal);
 
-      document.getElementById("close-apple-modal")?.addEventListener("click", closeAppleModal);
-      document.getElementById("close-apple-btn")?.addEventListener("click", closeAppleModal);
-      document.getElementById("switch-to-mada-btn")?.addEventListener("click", () => {
-        closeAppleModal();
-        if (paymentSelect) paymentSelect.value = "mada";
+      document.getElementById("close-apple-modal")?.addEventListener("click", () => {
+        closeAppleModal({ resetPaymentSelection: true });
+      });
+      document.getElementById("close-apple-btn")?.addEventListener("click", () => {
+        closeAppleModal({ resetPaymentSelection: true });
       });
 
       paymentSelect?.addEventListener("change", () => {
+        if (paymentSelect.value) {
+          setFieldError(paymentSelect, paymentErr, "");
+        }
         if (paymentSelect.value === "apple-pay") {
           openAppleModal();
         }
@@ -925,7 +1020,13 @@
           return;
         }
 
-        const paymentMethod = paymentSelect?.value || "mada";
+        const paymentMethod = paymentSelect?.value || "";
+        if (!paymentMethod) {
+          setFieldError(paymentSelect, paymentErr, "اختر طريقة الدفع أولاً.");
+          return;
+        }
+        setFieldError(paymentSelect, paymentErr, "");
+
         if (paymentMethod === "apple-pay") {
           openAppleModal();
           return;
