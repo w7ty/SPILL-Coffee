@@ -4,11 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SPILL</title>
+  <link rel="icon" type="image/png" href="image-coffee/logo-spill.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="store-ui.css" />
+  <style>
+    html,
+    body {
+      background-color: #fffdf2;
+    }
+    [data-theme="dark"] html,
+    [data-theme="dark"] body {
+      background-color: #241d10;
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var returning =
+          params.get("from") === "product" ||
+          Boolean(params.get("returnCategory")) ||
+          sessionStorage.getItem("skip_intro_once") === "1";
+        if (returning) {
+          var styleHide = document.createElement("style");
+          styleHide.id = "instant-return-hide";
+          styleHide.textContent =
+            "#home-editorial-content { display: none !important; } #preloader { display: none !important; }";
+          document.head.appendChild(styleHide);
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <!-- شاشة التحميل بمقطع إنتر بحواف ناعمة بدون حدود حادة -->
@@ -33,6 +63,9 @@
     <div class="header-right">
       <button id="menu-toggle" class="icon-btn" aria-label="الأقسام">
         <i class="fa-solid fa-bars"></i>
+      </button>
+      <button id="cat-header-back-btn" class="header-back-btn" type="button" aria-label="العودة للمتجر" hidden>
+        <i class="fa-solid fa-arrow-right"></i>
       </button>
       <span class="brand-name">SPILL</span>
     </div>
@@ -65,7 +98,8 @@
     </div>
 
     <nav class="drawer-nav">
-      <button class="category-link active" data-category="all">الرئيسية والعروض</button>
+      <button class="category-link active" data-category="all">الرئيسية</button>
+      <button class="category-link" data-category="offers">العروض</button>
 
       <!-- 1. القهوة -->
       <div class="nav-group">
@@ -204,7 +238,7 @@
     </section>
   </div>
 
-  <!-- المحتوى الرئيسي: العروض في آخر الصفحة الرئيسية، أو منتجات القسم عند اختيار قسم -->
+  <!-- المحتوى الرئيسي: العروض والمختارات في الصفحة الرئيسية، أو منتجات القسم عند اختيار قسم -->
   <main class="container">
     <section class="products-section">
       <div class="section-header">
@@ -213,6 +247,24 @@
 
       <!-- شريط العروض المتحرك مع إمكانية السحب والتقليب اليدوي -->
       <div id="offers-track" class="offers-track"></div>
+
+      <!-- مختارات من المتجر في الصفحة الرئيسية فقط -->
+      <div id="home-store-extras">
+        <div class="featured-block">
+          <div class="featured-head">
+            <h3>مختارات من المتجر</h3>
+            <button type="button" id="featured-see-all-btn" class="featured-all-btn">عرض الكل</button>
+          </div>
+          <div id="featured-products-grid" class="featured-marquee-track"></div>
+        </div>
+      </div>
+
+      <!-- شريط ترتيب داخل القسم -->
+      <div id="category-sort-bar" class="cat-toolbar" hidden>
+        <button type="button" class="cat-sort-btn is-active" data-sort="default">الترتيب الافتراضي</button>
+        <button type="button" class="cat-sort-btn" data-sort="in-stock">المتوفر الآن</button>
+        <button type="button" class="cat-sort-btn" data-sort="price-asc">الأقل سعراً</button>
+      </div>
 
       <!-- شبكة منتجات القسم عند اختيار قسم من القائمة -->
       <div id="products-grid" class="products-grid" hidden></div>
@@ -247,6 +299,8 @@
   </footer>
 
   <script src="products.js"></script>
+  <script src="ui.js"></script>
+  <script src="store-sections.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
